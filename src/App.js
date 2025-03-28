@@ -28,8 +28,8 @@ import { useState, useEffect } from "react";
 
 // List of cryptogram phrases with their authors
 const phrases = [
-  { text: "HELLO WORLD", author: "Anonymous" },
-  { text: "ALYA", author: "Alya" }
+  { text: "HELLO, WORLD!", author: "Anonymous" },
+  { text: "ALYA.", author: "Alya" }
 ];
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -58,7 +58,7 @@ export default function Cryptogram() {
     if (value.length > 1) return;
 
     const uppercaseValue = value.toUpperCase();
-    if (uppercaseValue !== phraseData.text[index]) {
+    if (alphabet.includes(phraseData.text[index]) && uppercaseValue !== phraseData.text[index]) {
       setError(`Incorrect letter: ${uppercaseValue}`);
       return;
     }
@@ -68,9 +68,11 @@ export default function Cryptogram() {
     newInputs[index] = uppercaseValue;
     setInputs(newInputs);
 
-    if (newInputs.join("") === phraseData.text) {
-      setIsComplete(true);
-    }
+    // Check if the cryptogram is complete
+    const solved = phraseData.text.split("").every((char, i) => {
+      return !alphabet.includes(char) || newInputs[i] === char;
+    });
+    setIsComplete(solved);
   };
 
   return (
@@ -81,9 +83,7 @@ export default function Cryptogram() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(10, 1fr)", gap: "5px" }}>
           {phraseData && phraseData.text.split("").map((char, index) => (
             <div key={index} style={{ textAlign: "center" }}>
-              {char === " " ? (
-                <div style={{ width: "24px", height: "24px" }}></div>
-              ) : (
+              {alphabet.includes(char) ? (
                 <>
                   <div style={{ fontSize: "14px", fontWeight: "bold" }}>{mapping[char]}</div>
                   <input
@@ -99,12 +99,16 @@ export default function Cryptogram() {
                     maxLength={1}
                   />
                 </>
+              ) : (
+                <div style={{ fontSize: "16px", fontWeight: "bold", height: "48px", lineHeight: "48px" }}>
+                  {char}
+                </div>
               )}
             </div>
           ))}
         </div>
       </div>
-      {isComplete && (
+      {isComplete && phraseData && (
         <div style={{ marginTop: "15px", color: "green", fontWeight: "bold" }}>
           Congratulations! You solved the cryptogram. Author: {phraseData.author}
         </div>
