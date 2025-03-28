@@ -86,10 +86,8 @@ export default function Cryptogram() {
                           width: "24px",
                           height: "24px",
                           textAlign: "center",
-                          border:
-                            inputs[index] === char
-                              ? "2px solid green"
-                              : "1px solid gray",
+                          border: "1px solid gray", // Consistent border size
+                          backgroundColor: inputs[index] === char ? "#d4edda" : "white", // Green background for correct letters
                           fontSize: "16px",
                         }}
                         value={inputs[index] || ""}
