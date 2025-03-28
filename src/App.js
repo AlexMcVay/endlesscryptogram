@@ -1,35 +1,10 @@
-// import logo from './logo.svg';
-// import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
 import { useState, useEffect } from "react";
 
 // List of cryptogram phrases with their authors
 const phrases = [
-  { text: "HELLO, WORLD!", author: "Anonymous" },
-  { text: "ALYA.", author: "Alya" }
+  //{ text: "HELLO, WORLD!", author: "Anonymous" },
+  //{ text: "ALYA.", author: "Alya" },
+  { text: "IT'S A BEAUTIFUL DAY", author: "Anonymous" },
 ];
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
@@ -80,32 +55,63 @@ export default function Cryptogram() {
       <h1 style={{ fontSize: "24px", fontWeight: "bold", marginBottom: "10px" }}>Cryptogram Game</h1>
       {error && <div style={{ color: "red", marginBottom: "10px" }}>{error}</div>}
       <div style={{ padding: "15px", border: "1px solid black", borderRadius: "8px", display: "inline-block" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(10, 1fr)", gap: "5px" }}>
-          {phraseData && phraseData.text.split("").map((char, index) => (
-            <div key={index} style={{ textAlign: "center" }}>
-              {alphabet.includes(char) ? (
-                <>
-                  <div style={{ fontSize: "14px", fontWeight: "bold" }}>{mapping[char]}</div>
-                  <input
-                    style={{
-                      width: "24px",
-                      height: "24px",
-                      textAlign: "center",
-                      border: inputs[index] === char ? "2px solid green" : "1px solid gray",
-                      fontSize: "16px"
-                    }}
-                    value={inputs[index]}
-                    onChange={(e) => handleChange(index, e.target.value)}
-                    maxLength={1}
-                  />
-                </>
-              ) : (
-                <div style={{ fontSize: "16px", fontWeight: "bold", height: "48px", lineHeight: "48px" }}>
-                  {char}
+        <div
+          style={{
+            display: "flex",
+            flexWrap: "wrap",
+            gap: "10px",
+            justifyContent: "center",
+            maxWidth: "100%",
+          }}
+        >
+          {phraseData &&
+            phraseData.text.split("").map((char, index) => {
+              const isLetter = alphabet.includes(char);
+
+              return (
+                <div
+                  key={index}
+                  style={{
+                    textAlign: "center",
+                    display: "inline-block",
+                  }}
+                >
+                  {isLetter ? (
+                    <>
+                      <div style={{ fontSize: "14px", fontWeight: "bold" }}>
+                        {mapping[char]}
+                      </div>
+                      <input
+                        style={{
+                          width: "24px",
+                          height: "24px",
+                          textAlign: "center",
+                          border:
+                            inputs[index] === char
+                              ? "2px solid green"
+                              : "1px solid gray",
+                          fontSize: "16px",
+                        }}
+                        value={inputs[index] || ""}
+                        onChange={(e) => handleChange(index, e.target.value)}
+                        maxLength={1}
+                      />
+                    </>
+                  ) : (
+                    <div
+                      style={{
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        height: "48px",
+                        lineHeight: "48px",
+                      }}
+                    >
+                      {char}
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          ))}
+              );
+            })}
         </div>
       </div>
       {isComplete && phraseData && (
