@@ -1,4 +1,5 @@
 {
+  "homepage": "https://AlexMcVay.github.io/cryptogramendless",
   "name": "cryptogramendless",
   "version": "0.1.0",
   "private": true,
@@ -12,7 +13,6 @@
     "react-scripts": "^3.0.1",
     "web-vitals": "^2.1.4"
   },
-  "homepage": "https://AlexMcVay.github.io/cryptogramendless",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
